@@ -8,6 +8,7 @@ public class HomeController {
 	
 	@GetMapping("/")
 	String home() {
+		/* commit test */
 		return "home";
 	}
 }
