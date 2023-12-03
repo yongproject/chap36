@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.imple.country.mapper.CountryMapper">
+<select id="countAll">
+	select count(*) from country
+</select>
+
+<select id="selectCitys">
+	select *
+	  from city
+	 where country_code = #{code}
+</select>
+
+<resultMap type="com.example.imple.country.model.Country" id="WithCitysResultMap">
+	<result property="code" column="code"/>
+	<collection property="citys" column="code" select="selectCitys"/>
+</resultMap>
+
+<select id="selectAll">
+	select * from country
+</select>	
+<select id="selectAllWithCitys" resultMap="WithCitysResultMap">
+	select * from country
+</select>
+
+<select id="selectPage">
+	select * from country
+</select>
+<select id="selectPageWithCitys" resultMap="WithCitysResultMap">
+	select * from country
+	 order by code
+</select>
+
+<select id="selectByCode">
+	select *
+	  from country
+	 where code = upper(#{code})
+</select>	
+<select id="selectByCodeWithCitys" resultMap="WithCitysResultMap">
+	select *
+	  from country
+	 where code = upper(#{code})
+</select>
+<insert id="insertCountry">
+	insert into country
+	values
+	(
+		#{code},
+		#{name},
+		#{continent, jdbcType=VARCHAR},
+		#{region, jdbcType=VARCHAR},
+		#{surfaceArea, jdbcType=DOUBLE},
+		#{indepYear, jdbcType=INTEGER},
+		#{population, jdbcType=BIGINT},
+		#{lifeExpectancy, jdbcType=DOUBLE},
+		#{gnp, jdbcType=DOUBLE},
+		#{gnpOld, jdbcType=DOUBLE},
+		#{localName, jdbcType=VARCHAR},
+		#{governmentForm, jdbcType=VARCHAR},
+		#{headOfState, jdbcType=VARCHAR},
+		#{capital, jdbcType=BIGINT},
+		#{code2, jdbcType=VARCHAR}
+	)
+</insert>
+
+<update id="updateCountry">
+	update country
+	   set name             =   #{name},
+		   continent    	=	#{continent, jdbcType=VARCHAR},
+		   region      		=	#{region, jdbcType=VARCHAR},
+		   surface_area   	=	#{surfaceArea, jdbcType=DOUBLE},
+		   indep_year    	=	#{indepYear, jdbcType=INTEGER},
+		   population    	=	#{population, jdbcType=BIGINT},
+		   life_Expectancy	=	#{lifeExpectancy, jdbcType=DOUBLE},
+		   gnp      	  	=	#{gnp, jdbcType=DOUBLE},
+		   gnp_old        	=	#{gnpOld, jdbcType=DOUBLE},
+		   local_name    	=	#{localName, jdbcType=VARCHAR},
+		   government_form	=	#{governmentForm, jdbcType=VARCHAR},
+		   head_of_state  	=	#{headOfState, jdbcType=VARCHAR},
+		   capital      	=	#{capital, jdbcType=BIGINT},
+		   code2         	=	#{code2, jdbcType=VARCHAR}
+	 where code				=   #{code}
+</update>
+
+<delete id="delete">
+	delete
+	  from country
+	 where code = #{code}
+</delete>
+</mapper>
